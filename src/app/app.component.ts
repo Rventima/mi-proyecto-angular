@@ -1,12 +1,28 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { TextClipboardComponent } from './text-clipboard/text-clipboard.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  standalone: true,
+  imports: [TextClipboardComponent],
+  template: `
+    <div class="container">
+      <h1>Editor de Texto</h1>
+      <app-text-clipboard></app-text-clipboard>
+    </div>
+  `,
+  styles: [`
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+    }
+  `]
 })
-export class AppComponent {
-  title = 'mi-proyecto-angular';
-}
+export class AppComponent {}
