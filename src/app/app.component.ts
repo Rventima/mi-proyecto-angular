@@ -1,28 +1,25 @@
 import { Component } from '@angular/core';
 import { TextClipboardComponent } from './text-clipboard/text-clipboard.component';
+import { AreaCopyTextAreaComponent } from "./area-copy-text-area/area-copy-text-area.component";
+import { ClipboardService } from './text-clipboard/clipboard.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [TextClipboardComponent],
+  imports: [TextClipboardComponent, AreaCopyTextAreaComponent],
   template: `
-    <div class="container">
-      <h1>Editor de Texto</h1>
+    <h1>Texto</h1>
+    <div class="areas-container">
       <app-text-clipboard></app-text-clipboard>
+      <app-area-copy-text-area></app-area-copy-text-area>
     </div>
   `,
   styles: [`
-    .container {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    
     h1 {
       margin-bottom: 20px;
     }
-  `]
+
+  `],
+  providers: [ClipboardService]
 })
 export class AppComponent {}

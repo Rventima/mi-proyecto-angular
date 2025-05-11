@@ -2,6 +2,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ClipboardService } from './clipboard.service';
 
 @Component({
   selector: 'app-text-clipboard',
@@ -44,27 +45,7 @@ import { FormsModule } from '@angular/forms';
     </div>
   `,
   styles: [`
-    .text-area-container {
-      position: relative;
-      width: 50%;
-      min-height: 50dvh;
-      display: flex;
-      
-    }
-    
-    .text-area {
-      width: 100%;
-      height: 100%;
-      padding: 15px;
-      box-sizing: border-box;
-      resize: none;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-family: inherit;
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-    
+
     .copy-button {
       position: absolute;
       top: -10px;
@@ -93,26 +74,33 @@ import { FormsModule } from '@angular/forms';
     }
 
   `]
+
 })
 export class TextClipboardComponent {
+
+  constructor(private clipboardService: ClipboardService){}
+
   textContent = signal('');
   hasCopied = signal(false);
   
   updateText(value: string) {
     this.textContent.set(value);
+    this.clipboardService.updateClipboard(this.textContent()); // enviar señal
+
     // Reset the copied state when text changes
     if (this.hasCopied()) {
       this.hasCopied.set(false);
     }
   }
-  
+
+
   copyToClipboard() {
     // Solo copiar si hay contenido
     if (this.textContent().trim()) {
       navigator.clipboard.writeText(this.textContent())
         .then(() => {
           this.hasCopied.set(true);
-          
+
           // Resetear el estado de copiado después de 2 segundos
           setTimeout(() => {
             this.hasCopied.set(false);
@@ -123,4 +111,6 @@ export class TextClipboardComponent {
         });
     }
   }
+
+
 }
